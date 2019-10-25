@@ -18,11 +18,14 @@ pipeline {
             steps {
                 sh 'docker stop poll-server-app-container || echo "docker container poll-server-app-container is not currently running"'
                 sh 'docker rm poll-server-app-container || echo "docker container poll-server-app-container is not currently running"'
+                sh 'docker stop poll-server-app-container_2 || echo "docker container poll-server-app-container_2 is not currently running"'
+                sh 'docker rm poll-server-app-container_2 || echo "docker container poll-server-app-container_2 is not currently running"'
             }
         }
         stage('Create container') {
             steps {
                 sh "docker run -t -d --name poll-server-app-container --link mysql-docker-container:mysql -p 5000:5000 poll-server-app"
+                sh "docker run -t -d --name poll-server-app-container_2 --link mysql-docker-container:mysql -p 5006:5000 poll-server-app"
             }
         }
     }
